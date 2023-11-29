@@ -1,0 +1,1096 @@
+"""
+cd Desktop\django-mysql
+
+pip install virtualenv
+virtualenv venv
+venv\Scripts\activate
+venv\Scripts\deactivate
+
+pip install django
+pip list
+
+django-admin startproject projectmysql
+cd projectmysql
+
+python manage.py startapp mysqlcrud
+code ..
+"""
+"""
+mysql --version
+
+mysql -u root -p
+Password: niraj@12345
+
+show databases;
+
+use mysql;
+show tables;
+select user from user;
+CREATE USER niraj@localhost IDENTIFIED BY 'niraj@12345';
+select user from user;
+
+create database nirajdb;
+show databases;
+
+GRANT ALL PRIVILEGES ON nirajdb.* TO niraj@localhost;
+"""
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'nirajdb',
+        'USER': 'niraj',
+        'PASSWORD': 'niraj@12345',
+        'HOST':'127.0.0.1',
+        'PORT':'3306',
+    }
+}
+"""
+"""
+python manage.py makemigrations
+python manage.py migrate
+
+python manage.py runserver
+
+python manage.py createsuperuser
+"""
+"""
+shift+ctrl+P
+Python: Select Interpreter
+C:\Users\HP I 5 6GENERATION\Desktop\django-mysql\venv
+enter
+"""
+"""
+Desktop\django-mysql\venv\Scripts\Activate.ps1 cannot be loaded because running scripts is disabled 
+Get-ExecutionPolicy
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted -Force
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass -Force
+"""
+"""
+Bootstrap:
+https://getbootstrap.com/docs/5.3/getting-started/introduction/
+https://getbootstrap.com/docs/4.4/getting-started/introduction/
+https://getbootstrap.com/docs/4.0/components/navbar/
+https://getbootstrap.com/docs/4.0/content/tables/
+https://getbootstrap.com/docs/4.0/components/card/
+https://fontawesome.com/v4/icons/
+https://www.w3schools.com/icons/fontawesome_icons_intro.asp
+
+pip install django-crispy-forms==1.14.0
+pip list
+"""
+"""
+CREATE DATABASE temp1;
+DROP DATABASE temp1;
+create database temp2;
+drop database temp2;
+Create DataBase temp3;
+Drop DataBase temp3;
+
+CREATE DATABASE college;
+CREATE DATABASE IF NOT EXISTS college;
+
+DROP DATABASE company;
+DROP DATABASE IF EXISTS company;
+
+SHOW DATABASES;
+"""
+"""
+CREATE DATABASE college;
+USE college;
+
+CREATE TABLE student (
+id INT PRIMARY KEY,
+NAME VARCHAR(50),
+AGE INT NOT NULL
+);
+
+INSERT INTO student VALUES(1, "Niraj", 29);
+INSERT INTO student VALUES(2, "Vikash", 27);
+
+SELECT * FROM student;
+
+SHOW TABLES;
+"""
+"""
+CREATE DATABASE college;
+USE college;
+
+CREATE TABLE student (
+ROLL_NO INT PRIMARY KEY,
+NAME VARCHAR(50)
+);
+
+INSERT INTO student
+(ROLL_NO, NAME)
+VALUE
+(101, "NIRAJ"),
+(102, "SURAJ");
+
+SELECT * FROM student;
+"""
+"""
+CREATE DATABASE college;
+USE college;
+
+CREATE TABLE student (
+ROLL_NO INT PRIMARY KEY,
+NAME VARCHAR(50)
+);
+
+INSERT INTO student
+VALUE
+(101, "NIRAJ"),
+(102, "SURAJ");
+
+SELECT * FROM student;
+"""
+"""
+Primary Key & Foreign Key:
+1)
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE student (
+roll_no INT PRIMARY KEY,
+name VARCHAR(50)
+);
+
+CREATE TABLE course (
+course_id INT PRIMARY KEY,
+course_name VARCHAR(50)
+);
+
+INSERT INTO student
+(roll_no, name)
+VALUE
+(101, "niraj"),
+(102, "vivek"),
+(103, "mithilesh"),
+(104, "samar"),
+(105, "suraj");
+
+INSERT INTO course
+(course_id, course_name)
+VALUE 
+(001, "hindi"),
+(002, "english"),
+(003, "science"),
+(004, "math"),
+(005, "history");
+
+SELECT * FROM student;
+
+SELECT * FROM course;
+
+CREATE TABLE student_course (
+roll_no INT,
+course_id INT,
+FOREIGN KEY (roll_no) REFERENCES student(roll_no),
+FOREIGN KEY (course_id) REFERENCES course(course_id)
+);
+
+INSERT INTO student_course
+(roll_no, course_id)
+VALUE 
+(101, 001),
+(102, 002),
+(103, 003),
+(104, 004),
+(105, 005);
+
+SELECT * FROM student_course;"""
+
+2)Cascading for Foreign Key:
+"""
+CREATE TABLE student (
+roll_no INT PRIMARY KEY,
+name VARCHAR(50)
+);
+
+CREATE TABLE course (
+course_id INT PRIMARY KEY,
+course_name VARCHAR(50)
+);
+
+DROP TABLE course;
+
+DROP TABLE student;
+
+INSERT INTO student
+(roll_no, name)
+VALUE
+(101, "niraj"),
+(102, "vivek"),
+(103, "mithilesh"),
+(104, "samar"),
+(105, "suraj");
+
+SELECT * FROM student;
+
+UPDATE student
+SET roll_no = 107
+WHERE roll_no = 101;
+
+INSERT INTO course
+(course_id, course_name)
+VALUE 
+(001, "hindi"),
+(002, "english"),
+(003, "science"),
+(004, "math"),
+(005, "history");
+
+SELECT * FROM course;
+
+UPDATE course
+SET course_id = 006
+WHERE course_id = 005;
+
+CREATE TABLE student_course (
+roll_no INT,
+course_id int,
+FOREIGN KEY (roll_no) REFERENCES student(roll_no) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (course_id) REFERENCES course(course_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+DROP TABLE student_course;
+
+INSERT INTO student_course
+(roll_no, course_id)
+VALUE 
+(101, 001),
+(102, 002),
+(103, 003),
+(104, 004),
+(105, 005);
+
+SELECT * FROM student_course;
+"""
+"""
+Constraints in MySql:
+
+1)Primary Key Constraint:
+CREATE TABLE students (
+  student_id INT PRIMARY KEY,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50)
+);
+Or
+CREATE TABLE students (
+  student_id INT,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  PRIMARY KEY (student_id)
+);
+
+CREATE TABLE students (
+  student_id INT,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  PRIMARY KEY (student_id, first_name)
+);
+
+2)Unique Constraint:
+CREATE TABLE employees (
+  employee_id INT PRIMARY KEY,
+  email VARCHAR(100) UNIQUE
+);
+
+3)Not Null Constraint:
+CREATE TABLE products (
+  product_id INT PRIMARY KEY,
+  product_name VARCHAR(100) NOT NULL
+);
+"""
+
+4)Default Constraint:
+"""
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE messages (
+  message_id INT PRIMARY KEY,
+  message_text VARCHAR(50) DEFAULT 'no message text provided'
+);
+
+INSERT INTO messages
+VALUE 
+(101, 'hi'),
+(102, 'hello'),
+(103, DEFAULT);
+
+SELECT * FROM messages;
+"""
+5)Check Constraint:
+"""
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE orders (
+  order_id INT PRIMARY KEY,
+  order_total DECIMAL(10, 2) CHECK(order_total >= 10)
+);
+
+DROP TABLE orders;
+
+INSERT INTO orders
+VALUES 
+(45, 9.59),
+(105, 8.456),
+(135, 10.56789),
+(178, 1234.123456789);
+
+SELECT * FROM orders;"""
+
+"""
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE orders (
+  order_id INT PRIMARY KEY,
+  order_total DECIMAL(10, 2), 
+  CONSTRAINT CHECK (order_total >= 10 AND order_id <= 100)
+);
+
+DROP TABLE orders;
+
+INSERT INTO orders
+VALUES 
+(45, 9.59),
+(105, 8.456),
+(135, 10.56789),
+(178, 1234.123456789);
+
+SELECT * FROM orders;"""
+
+6)Auto Increment Constraint:
+"""
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE customers (
+  customer_id INT AUTO_INCREMENT PRIMARY KEY,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50)
+);
+
+INSERT INTO customers
+(first_name, last_name)
+VALUE
+('niraj', 'yadav'),
+('vivek', 'singh');
+
+SELECT * FROM customers;"""
+
+"""
+Data Type:
+
+1)Numeric Types:
+INT: Integer values, suitable for whole numbers.
+TINYINT, SMALLINT, MEDIUMINT, BIGINT: Integer types with varying levels of storage size and range.
+FLOAT and DOUBLE: Floating-point numbers with single and double precision.
+DECIMAL or NUMERIC: Fixed-point numbers with a specified number of decimal places. 
+
+2)String Types:
+CHAR: Fixed-length character strings.
+VARCHAR: Variable-length character strings.
+TEXT: Variable-length character strings for longer text.
+ENUM and SET: Enumerated types and sets of predefined values.
+
+3)Date and Time Types:
+DATE: Date values in 'YYYY-MM-DD' format.
+TIME: Time values in 'HH:MM:SS' format.
+DATETIME: Date and time values in 'YYYY-MM-DD HH:MM:SS' format.
+TIMESTAMP: Timestamps with automatic update capabilities.
+YEAR: A four-digit year value.
+
+4)Binary Types:
+a)BINARY: Fixed-length binary data.
+column_name BINARY(length)
+column_name is the name of the column you are defining.
+length is the number of bytes the column can store. It can range from 1 to 255.
+CREATE TABLE files (
+  file_id INT PRIMARY KEY,
+  file_data BINARY(64)
+);
+INSERT INTO files (file_id, file_data)
+VALUES (1, 0x01020304);
+
+CREATE TABLE flags (
+  flag_id INT PRIMARY KEY,
+  flag_data BINARY(1)
+);
+INSERT INTO flags (flag_id, flag_data)
+VALUES (1, b'01010101');
+
+b)VARBINARY: Variable-length binary data.
+column_name VARBINARY(max_length)
+column_name is the name of the column you are defining.
+max_length is the maximum number of bytes the column can store. It can range from 1 to 65,535.
+CREATE TABLE documents (
+  document_id INT PRIMARY KEY,
+  document_data VARBINARY(1024)
+);
+
+c)BLOB: Binary large objects for storing large binary data(e.g., images, files).
+column_name BLOB [max_length]
+column_name is the name of the column you are defining.
+max_length (optional) specifies the maximum size in bytes for the BLOB column. If omitted, the BLOB column can store a large amount 
+of data, subject to the limitations of the database.
+CREATE TABLE image_data (
+  image_id INT PRIMARY KEY,
+  image_content BLOB(5M)
+);
+
+CREATE TABLE documents (
+  document_id INT PRIMARY KEY,
+  document_content BLOB
+);
+
+5)Boolean Type:
+BOOLEAN or BOOL: Boolean values, which can be '1' or '0' & 'TRUE' or 'FALSE'.
+a)TINYINT(1):0 represents FALSE and any non-zero value (typically 1) represents TRUE.
+CREATE TABLE employees (
+  employee_id INT PRIMARY KEY,
+  is_active TINYINT(1)
+);
+INSERT INTO employees (employee_id, is_active)
+VALUES (1, 1); -- TRUE
+b)BOOL:
+CREATE TABLE customers (
+  customer_id INT PRIMARY KEY,
+  is_registered BOOL
+);
+c)BOOLEAN:
+CREATE TABLE orders (
+  order_id INT PRIMARY KEY,
+  is_complete BOOLEAN
+);
+
+SELECT * FROM employees WHERE is_active;
+
+6)Spatial Types:
+GEOMETRY, POINT, LINESTRING, POLYGON, etc.: Spatial data types for storing geometric and geographic data.
+a)POINT:CREATE TABLE locations (
+  location_id INT PRIMARY KEY,
+  coordinates POINT
+);
+b)LINESTRING:
+CREATE TABLE roads (
+  road_id INT PRIMARY KEY,
+  path LINESTRING
+);
+c)POLYGON:
+CREATE TABLE regions (
+  region_id INT PRIMARY KEY,
+  boundary POLYGON
+);
+d)GEOMETRY:
+CREATE TABLE spatial_data (
+  id INT PRIMARY KEY,
+  geom GEOMETRY
+);
+e)MULTIPOINT, MULTILINESTRING, MULTIPOLYGON: These data types represent collections of POINT, LINESTRING, and POLYGON objects, 
+respectively.
+f)GEOMETRYCOLLECTION: The GEOMETRYCOLLECTION data type is a container that can hold multiple types of spatial objects, including POINT, 
+LINESTRING, POLYGON, and other collections.
+
+7)JSON Type:
+JSON: A data type for storing JSON(JavaScript Object Notation) data.
+CREATE TABLE employees (
+  employee_id INT PRIMARY KEY,
+  employee_data JSON
+);
+INSERT INTO employees 
+(employee_id, employee_data)
+VALUES 
+(1, '{"first_name": "John", "last_name": "Doe", "age": 30}');
+
+8)Bit Type:
+BIT: Fixed-length sequences of bits.
+column_name BIT(length)
+column_name is the name of the column you are defining.
+length is the number of bits the column can store, which you need to specify. It can range from 1 to 64.
+status BIT(1) DEFAULT 0;
+Common default values for BIT columns include 0 or 1 to represent Boolean values.
+
+9)Other Types:
+ENUM: A data type that represents a static, ordered set of values. Enumerated types are typically used for columns with a fixed set of 
+options, where only one value from the list is allowed.
+CREATE TABLE weekdays (
+  days ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
+);
+
+SET: A data type that represents a dynamic set of values, where each row can have zero or more values from the set. Sets are used when 
+multiple values from a predefined set can be selected for a column.
+CREATE TABLE hobbies (
+  interests SET('Reading', 'Hiking', 'Swimming', 'Gardening')
+);"""
+
+"""
+SELECT:
+
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE cat_score (
+roll_no INT PRIMARY KEY,
+name VARCHAR(50),
+city VARCHAR(50),
+percentile FLOAT UNIQUE,
+job_experience_years INT DEFAULT 0
+);
+
+INSERT INTO cat_score
+(roll_no, name, city, percentile, job_experience_years)
+VALUES
+(101, "niraj", "delhi", 99.80, 7),
+(102, "vivek", "mumbai", 99.69, 8),
+(103, "samar", "delhi", 99.45, 3),
+(104, "raj", "mumbai", 99.12, DEFAULT);
+
+SELECT * FROM cat_score;
+
+SELECT name, city FROM cat_score;
+
+SELECT DISTINCT city FROM cat_score;
+
+SELECT * FROM cat_score LIMIT 2;
+
+SELECT * FROM cat_score WHERE city = "delhi" AND percentile > 99.50;
+
+SELECT count(*) FROM cat_score;
+
+SELECT * FROM cat_score ORDER BY name ASC;
+
+SELECT * FROM cat_score ORDER BY job_experience_years DESC;"""
+
+"""
+Different use of WHERE while applying SELECT:
+
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE cat_score (
+roll_no INT PRIMARY KEY,
+name VARCHAR(50),
+city VARCHAR(50),
+percentile FLOAT UNIQUE,
+job_experience_years INT DEFAULT 0
+);
+
+INSERT INTO cat_score
+(roll_no, name, city, percentile, job_experience_years)
+VALUES
+(101, "niraj", "delhi", 99.80, 7),
+(102, "vivek", "mumbai", 99.69, 8),
+(103, "samar", "delhi", 99.45, 3),
+(104, "raj", "mumbai", 99.12, DEFAULT),
+(105, "k", "pune", 97.6, Null);
+
+SELECT * FROM cat_score;
+
+SELECT * FROM cat_score WHERE percentile = 100;
+
+SELECT * FROM cat_score WHERE percentile != 100;
+
+SELECT * FROM cat_score WHERE percentile + 0.5 > 100;
+
+SELECT * FROM cat_score WHERE percentile - 0.5 <= 99;
+
+SELECT * FROM cat_score WHERE city = "delhi" AND percentile > 99.50;
+
+SELECT * FROM cat_score WHERE city = "delhi" OR percentile > 99.50;
+
+SELECT * FROM cat_score WHERE city IN ("delhi", "chandigarh");
+
+SELECT * FROM cat_score WHERE city NOT IN ("delhi", "chandigarh");
+
+SELECT * FROM cat_score WHERE percentile BETWEEN 99.4 AND 99.7;
+
+SELECT * FROM cat_score WHERE percentile NOT BETWEEN 99.4 AND 99.7;
+
+SELECT * FROM cat_score WHERE name LIKE "ni%";
+
+SELECT * FROM cat_score WHERE name NOT LIKE "ni%";
+
+SELECT * FROM cat_score WHERE job_experience_years IS NULL;
+
+SELECT * FROM cat_score WHERE job_experience_years IS NOT NULL;"""
+
+"""
+Use of GROUP BY while applying SELECT:
+
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE cat_score (
+roll_no INT PRIMARY KEY,
+name VARCHAR(50),
+city VARCHAR(50),
+percentile FLOAT UNIQUE,
+job_experience_years INT DEFAULT 0
+);
+
+INSERT INTO cat_score
+(roll_no, name, city, percentile, job_experience_years)
+VALUES
+(101, "niraj", "delhi", 99.80, 7),
+(102, "vivek", "mumbai", 99.69, 8),
+(103, "samar", "delhi", 99.45, 3),
+(104, "raj", "mumbai", 99.12, DEFAULT),
+(105, "k", "pune", 97.6, Null);
+
+SELECT city, count(*) FROM cat_score GROUP BY city;
+
+SELECT city, name, count(roll_no) FROM cat_score GROUP BY city, name;
+
+SELECT city, AVG(percentile) 
+FROM cat_score 
+GROUP BY city 
+ORDER BY AVG(percentile) ASC;"""
+
+"""
+Use of HAVING while applying GROUP BY:
+
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE cat_score (
+roll_no INT PRIMARY KEY,
+name VARCHAR(50),
+city VARCHAR(50),
+percentile FLOAT UNIQUE,
+job_experience_years INT DEFAULT 0
+);
+
+INSERT INTO cat_score
+(roll_no, name, city, percentile, job_experience_years)
+VALUES
+(101, "niraj", "delhi", 99.80, 7),
+(102, "vivek", "mumbai", 99.69, 8),
+(103, "samar", "delhi", 99.45, 3),
+(104, "raj", "mumbai", 99.12, DEFAULT),
+(105, "k", "pune", 97.6, Null);
+
+SELECT city, count(*)
+FROM cat_score
+GROUP BY city
+HAVING MAX(percentile) > 99.25;
+
+SELECT city, percentile, count(*)
+FROM cat_score
+GROUP BY city, percentile
+HAVING percentile > 99.25;
+
+SELECT city, count(*)
+FROM cat_score
+WHERE percentile > 99.25
+GROUP BY city;
+
+SELECT city, count(*)
+FROM cat_score
+WHERE percentile > 99.25
+GROUP BY city
+HAVING MAX(percentile) > 99.25
+ORDER BY count(*) ASC;
+
+---SELECT---FROM---WHERE(ROWS)---GROUP BY---HAVING(GROUP)---ORDER BY--- """
+
+"""
+UPDATE:
+
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE cat_score (
+roll_no INT PRIMARY KEY,
+name VARCHAR(50),
+city VARCHAR(50),
+percentile FLOAT(10,2) UNIQUE,
+job_experience_years INT DEFAULT 0
+);
+
+DROP TABLE cat_score;
+
+INSERT INTO cat_score
+VALUE
+(101, "niraj", "delhi", 99.80, 7),
+(102, "vivek", "mumbai", 99.69, 8),
+(103, "samar", "delhi", 99.45, 3),
+(104, "raj", "mumbai", 99.12, DEFAULT),
+(105, "k", "pune", 97.6, Null);
+
+SET SQL_SAFE_UPDATES = 0;
+
+UPDATE cat_score
+SET city = "noida"
+WHERE city = 'delhi';
+
+UPDATE cat_score
+SET city = "ghaziabad"
+WHERE percentile = 99.8;
+
+UPDATE cat_score
+SET percentile = 98.25
+WHERE roll_no = 105;
+
+UPDATE cat_score
+SET percentile = percentile + 0.05;
+
+SELECT * FROM cat_score;"""
+
+"""
+DELETE:
+
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE cat_score (
+roll_no INT PRIMARY KEY,
+name VARCHAR(50),
+city VARCHAR(50),
+percentile FLOAT UNIQUE,
+job_experience_years INT DEFAULT 0
+);
+
+INSERT INTO cat_score
+VALUE
+(101, "niraj", "delhi", 99.80, 7),
+(102, "vivek", "mumbai", 99.69, 8),
+(103, "samar", "delhi", 99.45, 3),
+(104, "raj", "mumbai", 99.12, DEFAULT),
+(105, "k", "pune", 97.6, Null);
+
+SET SQL_SAFE_UPDATES = 0;
+
+DELETE FROM cat_score
+WHERE roll_no = 101;
+
+DELETE FROM cat_score
+WHERE city = "mumbai";
+
+SELECT * FROM cat_score;"""
+
+"""
+ALTER:
+
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE cat_score (
+roll_no INT PRIMARY KEY,
+name VARCHAR(50),
+city VARCHAR(50),
+percentile FLOAT,
+job_experience_years INT DEFAULT 0
+);
+
+INSERT INTO cat_score
+(roll_no, name, city, percentile, job_experience_years)
+VALUES
+(101, "niraj", "delhi", 99.80, 7),
+(102, "vivek", "mumbai", 99.69, 8),
+(103, "samar", "delhi", 99.45, 3),
+(104, "raj", "mumbai", 99.12, DEFAULT),
+(105, "k", "pune", 97.6, Null);
+
+SELECT * FROM cat_score;
+
+ALTER TABLE cat_score
+ADD COLUMN age INT NOT NULL DEFAULT 19;
+
+ALTER TABLE cat_score
+DROP COLUMN age;
+
+ALTER TABLE cat_score
+RENAME TO cat_performance;
+
+SELECT * FROM cat_performance;
+
+ALTER TABLE cat_performance
+CHANGE COLUMN job_experience_years work_ex FLOAT(2,1) DEFAULT 1.5;
+
+ALTER TABLE cat_performance
+MODIFY COLUMN percentile INT;"""
+
+"""
+TRUNCATE:
+
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE cat_score (
+roll_no INT PRIMARY KEY,
+name VARCHAR(50),
+city VARCHAR(50),
+percentile FLOAT,
+job_experience_years INT DEFAULT 0
+);
+
+INSERT INTO cat_score
+(roll_no, name, city, percentile, job_experience_years)
+VALUES
+(101, "niraj", "delhi", 99.80, 7),
+(102, "vivek", "mumbai", 99.69, 8),
+(103, "samar", "delhi", 99.45, 3),
+(104, "raj", "mumbai", 99.12, DEFAULT),
+(105, "k", "pune", 97.6, Null);
+
+SELECT * FROM cat_score;
+
+TRUNCATE TABLE cat_score;"""
+
+"""
+JOIN in MySQL:
+
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE student (
+id INT PRIMARY KEY,
+name VARCHAR(50)
+);
+
+DROP TABLE student;
+
+INSERT INTO student
+VALUE 
+(101, 'niraj'),
+(102, 'suraj'),
+(103, 'samar'),
+(104, 'vivek'),
+(105, 'vishesh');
+
+SELECT * FROM student;
+
+CREATE TABLE course (
+id INT PRIMARY KEY,
+course VARCHAR(50)
+);
+
+DROP TABLE course;
+
+INSERT INTO course
+VALUE 
+(101, 'english'),
+(103, 'physics'),
+(105, 'philosophy'),
+(107, 'psychology');
+
+SELECT * FROM course;
+
+Inner Join:
+SELECT *
+FROM student as s
+INNER JOIN course as c
+ON s.id = c.id;
+
+Outer Join:
+
+Left Join:
+SELECT *
+FROM student
+LEFT JOIN course
+ON student.id = course.id;
+
+Right Join:
+SELECT *
+FROM student
+RIGHT JOIN course
+ON student.id = course.id;
+
+Full Join:
+SELECT *
+FROM student
+LEFT JOIN course
+ON student.id = course.id
+UNION
+SELECT *
+FROM student
+RIGHT JOIN course
+ON student.id = course.id;
+
+Left Exclusive Join:
+SELECT *
+FROM student
+LEFT JOIN course
+ON student.id = course.id
+WHERE course.id IS NULL;
+
+Right Exclusive Join:
+SELECT *
+FROM student
+RIGHT JOIN course
+ON student.id = course.id
+WHERE student.id IS NULL;
+
+Self Join:
+
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE employee (
+id INT PRIMARY KEY,
+name VARCHAR(50),
+manager_id INT 
+);
+
+INSERT INTO employee
+VALUE 
+(101, 'niraj', 103),
+(102, 'vikas', 104),
+(103, 'vivek', 102),
+(104, 'samar', NULL);
+
+SELECT * FROM employee;
+
+SELECT a.name as manager_name, b.name
+FROM employee as a
+JOIN employee as b
+WHERE a.id = b.manager_id;
+
+SELECT a.name as manager_name, b.name
+FROM employee as a
+JOIN employee as b
+ON a.id = b.manager_id;
+
+Union & Union All:
+
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE employee_data_1 (
+id INT PRIMARY KEY,
+name VARCHAR(50)
+);
+
+INSERT INTO employee_data_1
+VALUE 
+(101, 'niraj'),
+(102, 'vikas'),
+(103, 'vivek'),
+(104, 'samar');
+
+SELECT * FROM employee_data_1;
+
+CREATE TABLE employee_data_2 (
+id INT PRIMARY KEY,
+name VARCHAR(50)
+);
+
+INSERT INTO employee_data_2
+VALUE 
+(101, 'niraj'),
+(102, 'vikas'),
+(105, 'suraj');
+
+SELECT * FROM employee_data_2;
+
+SELECT * FROM employee_data_1
+UNION
+SELECT * FROM employee_data_2;
+
+SELECT * FROM employee_data_1
+UNION ALL
+SELECT * FROM employee_data_2;"""
+
+"""
+Subquery/Inner Query/Nested Query:
+
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE student (
+roll_no INT PRIMARY KEY,
+name VARCHAR(50),
+marks int, 
+city VARCHAR(50)
+);
+
+INSERT INTO student
+VALUE 
+(101, 'niraj', 99, 'delhi'),
+(102, 'samar', 89, 'delhi'),
+(103, 'vivek', 97, 'delhi');
+
+SELECT *
+FROM student
+WHERE marks > AVG(marks);
+
+SELECT *
+FROM student
+WHERE marks > (SELECT AVG(marks) FROM student);
+
+SELECT MAX(marks)
+FROM student
+WHERE city = 'delhi';
+
+SELECT MAX(marks)
+FROM (SELECT * FROM student WHERE city = 'delhi') AS temp;
+
+1. Subquery in the WHERE clause:
+SELECT *
+FROM student
+WHERE marks > (SELECT AVG(marks) FROM student);
+
+2. Subquery with the IN operator:
+SELECT customer_id, first_name, last_name
+FROM customers
+WHERE customer_id IN (SELECT customer_id FROM orders WHERE order_date >= '2023-01-01');
+The subquery retrieves customer IDs that have placed orders on or after January 1, 2023, and the outer query retrieves customer details 
+for those IDs.
+
+Find all customers who have placed at least one order in the last month:
+SELECT * FROM customers
+WHERE customer_id IN (SELECT customer_id FROM orders WHERE order_date >= CURDATE() - INTERVAL 1 MONTH);
+
+3. Subquery with an aggregate function:
+SELECT department, AVG(salary) as avg_salary
+FROM employees
+GROUP BY department
+HAVING AVG(salary) > (SELECT AVG(salary) FROM employees);
+The subquery calculates the overall average salary of all employees, and the outer query retrieves departments with an average salary 
+greater than the overall average."""
+
+"""
+VIEWS:
+
+CREATE DATABASE ABC;
+USE ABC;
+
+CREATE TABLE student (
+roll_no INT PRIMARY KEY,
+name VARCHAR(50),
+marks int,
+city VARCHAR(50)
+);
+
+DROP TABLE student;
+
+INSERT INTO student
+VALUE 
+(101, 'niraj', 99, 'delhi'),
+(102, 'samar', 89, 'delhi'),
+(103, 'vivek', 97, 'mumbai'),
+(104, 'suraj', 95, 'delhi'),
+(105, 'vikas', 92, 'mumbai');
+
+CREATE VIEW view_1 AS
+SELECT roll_no, name
+FROM student;
+
+SELECT * FROM view_1;
+
+SELECT roll_no FROM view_1;
+
+DROP VIEW view_1;"""
+
+
+
+
+

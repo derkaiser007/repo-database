@@ -1,0 +1,613 @@
+SQL Shell (psql)
+pgAdmin 4
+Password for user postgres:niraj@12345
+
+\copyright for distribution terms
+\h for help with SQL commands
+\? for help with psql commands
+\g or terminate with semicolon to execute query
+\q to quit
+
+\l
+CREATE DATABASE niraj;
+\c niraj;
+\d
+DROP DATABASE niraj;
+
+niraj=# CREATE TABLE employee(
+niraj(# emp_id int not null,
+niraj(# emp_name char(30),
+niraj(# emp_dept char(30),
+niraj(# emp_gender char(10),
+niraj(# primary key(emp_id)
+niraj(# );
+
+
+\d
+\d employee
+DROP TABLE employee;
+\d
+\c postgres
+
+niraj=# CREATE TABLE person (
+niraj(# id BIGSERIAL NOT NULL PRIMARY KEY,
+niraj(# first_name VARCHAR(50) NOT NULL,
+niraj(# last_name VARCHAR(50) NOT NULL,
+niraj(# gender VARCHAR(6) NOT NULL,
+niraj(# date_of_birth DATE NOT NULL,
+niraj(# email VARCHAR(150) );
+
+\d
+
+              List of relations
+ Schema |     Name      |   Type   |  Owner
+--------+---------------+----------+----------
+ public | person        | table    | postgres
+ public | person_id_seq | sequence | postgres
+(2 rows)
+
+\dt
+
+         List of relations
+ Schema |  Name  | Type  |  Owner
+--------+--------+-------+----------
+ public | person | table | postgres
+(1 row)
+
+\d employee
+
+                                       Table "public.person"
+    Column     |          Type          | Collation | Nullable |              Default
+---------------+------------------------+-----------+----------+------------------------------------
+ id            | bigint                 |           | not null | nextval('person_id_seq'::regclass)
+ first_name    | character varying(50)  |           | not null |
+ last_name     | character varying(50)  |           | not null |
+ gender        | character varying(6)   |           | not null |
+ date_of_birth | date                   |           | not null |
+ email         | character varying(150) |           |          |
+Indexes:
+    "person_pkey" PRIMARY KEY, btree (id)
+
+INSERT INTO person (first_name, last_name, gender, date_of_birth) VALUES
+('Vivek', 'Singh', 'Male', DATE '1993-01-17');
+
+INSERT INTO person (first_name, last_name, gender, date_of_birth, email) VALUES
+('Vishesha', 'Singh', 'Female', DATE '1995-11-27', 'visheshasingh@gmail.com'),
+('Samay', 'Raina', 'Male', DATE '1991-02-11', 'samayraine@gmail.com');
+
+
+INSERT INTO person VALUES
+(5, 'Vishakha', 'Pandey', 'Female', DATE '1998-03-21', ''),
+(6, 'Vijay', 'Chauhan', 'Male', DATE '1985-04-15', 'vijaychauhan@gmail.com');
+
+SELECT * FROM person;
+
+ id | first_name | last_name | gender | date_of_birth |          email
+----+------------+-----------+--------+---------------+-------------------------
+  1 | Vivek      | Singh     | Male   | 1993-01-17    |
+  2 | Swati      | Singh     | Female | 1993-05-29    |
+  3 | Vishesha   | Singh     | Female | 1995-11-27    | visheshasingh@gmail.com
+  4 | Samay      | Raina     | Male   | 1991-02-11    | samayraine@gmail.com
+  5 | Vishakha   | Pandey    | Female | 1998-03-21    |
+  6 | Vijay      | Chauhan   | Male   | 1985-04-15    | vijaychauhan@gmail.com
+(6 rows)
+
+create table person (
+	id BIGSERIAL NOT NULL PRIMARY KEY,
+	first_name VARCHAR(50) NOT NULL,
+	last_name VARCHAR(50) NOT NULL,
+	gender VARCHAR(20) NOT NULL,
+	date_of_birth DATE NOT NULL,
+	country_of_birth VARCHAR(50) NOT NULL,
+	email VARCHAR(150)
+);
+
+https://www.mockaroo.com/
+
+SELECT * FROM person;
+
+SELECT count(*) FROM person;
+
+SELECT first_name, last_name FROM person;
+
+SELECT first_name FROM person WHERE country_of_birth = 'China';
+
+SELECT * FROM person WHERE gender = 'Female';
+
+SELECT * FROM person WHERE gender = 'Female' AND country_of_birth = 'China';
+
+SELECT * FROM person WHERE gender = 'Female' AND (country_of_birth = 'China' OR country_of_birth = 'Russia');
+
+SELECT * FROM person ORDER BY date_of_birth ASC;
+
+SELECT * FROM person ORDER BY first_name DESC;
+
+SELECT country_of_birth FROM person ORDER BY country_of_birth ASC;
+
+SELECT DISTINCT country_of_birth FROM person ORDER BY country_of_birth ASC;
+
+SELECT 1 = 1;
+
+SELECT 1 = 2;
+
+SELECT 1 < 2;
+
+SELECT 1 <= 2;
+
+SELECT 1 <> 2;
+
+SELECT * FROM person LIMIT 15;
+
+SELECT * FROM person OFFSET 30;
+
+SELECT * FROM person OFFSET 5 LIMIT 5;
+
+SELECT * FROM person OFFSET 25 FETCH FIRST 10 ROWS ONLY;
+
+SELECT * FROM person OFFSET 25 FETCH FIRST ROWS ONLY;
+
+SELECT * FROM person WHERE id < 15 ORDER BY country_of_birth LIMIT 5;
+
+SELECT * FROM person WHERE country_of_birth = 'China' OR country_of_birth = 'Russia' OR country_of_birth = 'Poland';
+
+SELECT * FROM person WHERE country_of_birth IN ('China', 'Russia', 'Poland');
+
+SELECT * FROM person WHERE country_of_birth IN ('China', 'Russia', 'Poland') ORDER BY first_name;
+
+SELECT * FROM person WHERE date_of_birth BETWEEN '1995-01-01' AND '2017-01-01';
+
+SELECT * FROM person WHERE email LIKE '%.com';
+
+SELECT * FROM person WHERE email LIKE '%@google.%';
+
+SELECT * FROM person WHERE email LIKE '__________@%';
+
+SELECT * FROM person WHERE email LIKE '_____t%';
+
+SELECT * FROM person WHERE country_of_birth LIKE 'P%';
+
+SELECT * FROM person WHERE country_of_birth LIKE 'p%';
+
+SELECT * FROM person WHERE country_of_birth ILIKE 'P%';
+
+SELECT country_of_birth, count(*) FROM person GROUP BY country_of_birth;
+
+SELECT country_of_birth, count(*) FROM person GROUP BY country_of_birth HAVING count(*) > 5 ORDER BY country_of_birth;
+
+CREATE TABLE car (
+	id BIGSERIAL NOT NULL PRIMARY KEY,
+	make VARCHAR(50) NOT NULL,
+	model VARCHAR(50) NOT  NULL,
+	price NUMERIC(10, 2) NOT NULL
+);
+
+https://www.mockaroo.com/
+
+SELECT MAX(price) FROM car;
+
+SELECT MIN(price) FROM car;
+
+SELECT SUM(price) FROM car;
+
+SELECT AVG(price) FROM car;
+
+SELECT ROUND(AVG(price)) FROM car;
+
+SELECT make, MAX(price) FROM car GROUP BY make;
+
+SELECT make, SUM(price) FROM car GROUP BY make;
+
+SELECT make, model, MIN(price) FROM car GROUP BY make, model;
+
+SELECT make, model, ROUND(AVG(price)) FROM car GROUP BY make, model;
+
+SELECT 2 + 1;
+
+SELECT 2 - 1;
+
+SELECT 2 * 4;
+
+SELECT 16 / 5;
+Quotient
+
+SELECT 16 % 5;
+Remainder
+
+SELECT 7^4;
+
+SELECT FACTORIAL(5);
+
+SELECT make, model, price, ROUND(price * .10), ROUND(price - price * .10) FROM car;
+
+SELECT make, model, price, ROUND(price * .10, 2), ROUND(price - price * .10, 2) FROM car;
+
+SELECT make, model, price AS original_price, ROUND(price * .10, 2) AS discount_price, ROUND(price - price * .10, 2) AS selling_price FROM car;
+
+SELECT COALESCE(1);
+
+SELECT COALESCE(1) AS number;
+
+SELECT COALESCE(null, 1) AS number;
+
+SELECT COALESCE(null, null, 1) AS number;
+
+SELECT COALESCE(null, null, 1, 10) AS number;
+
+SELECT COALESCE(email, 'Email Not Provided') AS email FROM person;
+
+SELECT NULLIF(0, 0);
+
+SELECT NULLIF(1, 1);
+
+SELECT NULLIF(1, 10);
+
+SELECT 10 / 0;
+
+SELECT 10 / NULL;
+
+SELECT 10 / NULLIF(2, 0);
+
+SELECT COALESCE(10 / NULLIF(0, 0), 0);
+
+SELECT NOW();
+
+SELECT NOW()::DATE;
+
+SELECT NOW()::TIME;
+
+SELECT NOW() - INTERVAL '10 YEARS';
+
+SELECT NOW() - INTERVAL '10 MONTHS';
+
+SELECT NOW() - INTERVAL '10 DAYS';
+
+SELECT NOW() - INTERVAL '10 YEARS 10 MONTHS 10 DAYS';
+
+SELECT NOW() + INTERVAL '10 YEARS 10 MONTHS 10 DAYS';
+
+SELECT NOW()::DATE + INTERVAL '10 DAYS';
+
+SELECT (NOW() + INTERVAL '10 DAYS')::DATE;
+
+SELECT EXTRACT(YEAR FROM NOW());
+
+SELECT EXTRACT(MONTH FROM NOW());
+
+SELECT EXTRACT(DAY FROM NOW());
+
+SELECT EXTRACT(DOW FROM NOW());
+Day Of Week -> Sunday = 0
+
+SELECT EXTRACT(CENTURY FROM NOW());
+
+SELECT first_name, last_name, date_of_birth, AGE(NOW(), date_of_birth) AS age FROM person;
+
+ALTER TABLE person DROP CONSTRAINT person_pkey;
+
+ALTER TABLE person ADD PRIMARY KEY(id);
+
+ALTER TABLE person ADD CONSTRAINT unique_email_address UNIQUE(email);
+
+ALTER TABLE person DROP CONSTRAINT unique_email_address;
+
+ALTER TABLE person ADD UNIQUE(email);
+
+ALTER TABLE person ADD CONSTRAINT gender_constraint CHECK (gender = 'Female' OR gender = 'Male');
+
+\d person;
+
+DELETE FROM person;
+Delete Every Row
+
+DELETE FROM person WHERE id = 75;
+
+DELETE FROM person WHERE gender = 'Female' AND country_of_birth = 'China';
+
+UPDATE person SET email = 'archer@email.com' WHERE first_name = 'Archer';
+
+UPDATE department SET dept_name = 'accounts & finance' WHERE dept_name = 'accounts';
+
+UPDATE person SET first_name = 'Gennie', gender = 'Female' WHERE id = 69;
+
+INSERT INTO person (id, first_name, last_name, gender, date_of_birth, country_of_birth, email) VALUES 
+(70, 'Bradan', 'Glasner', 'Male', '9/6/2005', 'Philippines', 'bglasner0@themeforest.net');
+ERROR:  duplicate key value violates unique constraint "person_pkey"
+DETAIL:  Key (id)=(70) already exists.
+
+INSERT INTO person (id, first_name, last_name, gender, date_of_birth, country_of_birth, email) VALUES 
+(70, 'Bradan', 'Glasner', 'Male', '9/6/2005', 'Philippines', 'bglasner0@themeforest.net')
+ON CONFLICT(id) DO NOTHING;
+INSERT 0 0
+
+INSERT INTO person (id, first_name, last_name, gender, date_of_birth, country_of_birth, email) VALUES 
+(41, 'Bradan', 'Glasner', 'Male', '9/6/2005', 'Philippines', 'bglasner0@themeforest.net')
+ON CONFLICT(id) DO UPDATE SET email = EXCLUDED.email, first_name = EXCLUDED.first_name, last_name = EXCLUDED.last_name;
+INSERT 0 1
+
+ id | first_name | last_name | gender | date_of_birth | country_of_birth |           email
+----+------------+-----------+--------+---------------+------------------+---------------------------
+ 41 | Bradan     | Glasner   | Male   | 2005-09-06    | Philippines      | bglasner0@themeforest.net
+
+INSERT INTO person (id, first_name, last_name, gender, date_of_birth, country_of_birth, email) VALUES 
+(41, 'Brady', 'Glasny', 'Male', '9/6/2005', 'Philippines', 'bglasner0@themeforest.net.ph')
+ON CONFLICT(id) DO UPDATE SET email = EXCLUDED.email, first_name = EXCLUDED.first_name, last_name = EXCLUDED.last_name;
+INSERT 0 1
+
+ id | first_name | last_name | gender | date_of_birth | country_of_birth |            email
+----+------------+-----------+--------+---------------+------------------+------------------------------
+ 41 | Brady      | Glasny    | Male   | 2005-09-06    | Philippines      | bglasner0@themeforest.net.ph
+
+CREATE TABLE car_info (
+	id BIGSERIAL NOT NULL PRIMARY KEY,
+	make VARCHAR(50) NOT NULL,
+	model VARCHAR(50) NOT  NULL,
+	price NUMERIC(10, 2) NOT NULL
+);
+
+create table person_info (
+	id BIGSERIAL NOT NULL PRIMARY KEY,
+	first_name VARCHAR(50) NOT NULL,
+	last_name VARCHAR(50) NOT NULL,
+	gender VARCHAR(20) NOT NULL,
+	date_of_birth DATE NOT NULL,
+	country_of_birth VARCHAR(50) NOT NULL,
+	email VARCHAR(150),
+        car_id BIGINT REFERENCES car_info(id),
+        UNIQUE(car_id)
+);
+
+\d car_info
+\d person_info
+
+INSERT INTO car_info (make, model, price) VALUES ('Dodge', 'Journey', 43542.38);
+INSERT INTO car_info (make, model, price) VALUES ('Maybach', '57', 82985.4);
+
+INSERT INTO person_info (first_name, last_name, gender, date_of_birth, country_of_birth, email) VALUES ('Mabelle', 'Restorick', 'Female', '12/24/1986', 'Dominican Republic', 'mrestorick0@sbwire.com');
+INSERT INTO person_info (first_name, last_name, gender, date_of_birth, country_of_birth, email) VALUES ('Gale', 'Gipp', 'Female', '4/13/2005', 'Egypt', 'ggipp1@fc2.com');
+INSERT INTO person_info (first_name, last_name, gender, date_of_birth, country_of_birth, email) VALUES ('Calv', 'Audiss', 'Male', '10/2/2008', 'United States', 'caudiss2@scribd.com');
+INSERT INTO person_info (first_name, last_name, gender, date_of_birth, country_of_birth, email) VALUES ('Jens', 'Reboul', 'Male', '11/9/2009', 'China', 'jreboul3@eepurl.com');
+
+UPDATE person_info SET car_id = 1 WHERE id = 2;
+UPDATE person_info SET car_id = 2 WHERE id = 3;
+
+ id | first_name | last_name | gender | date_of_birth |  country_of_birth  |         email          | car_id
+----+------------+-----------+--------+---------------+--------------------+------------------------+--------
+  1 | Mabelle    | Restorick | Female | 1986-12-24    | Dominican Republic | mrestorick0@sbwire.com |
+  2 | Gale       | Gipp      | Female | 2005-04-13    | Egypt              | ggipp1@fc2.com         |
+  3 | Calv       | Audiss    | Male   | 2008-10-02    | United States      | caudiss2@scribd.com    |
+  4 | Jens       | Reboul    | Male   | 2009-11-09    | China              | jreboul3@eepurl.com    |
+
+ id |  make   |  model  |  price
+----+---------+---------+----------
+  1 | Dodge   | Journey | 43542.38
+  2 | Maybach | 57      | 82985.40
+
+ id | first_name | last_name | gender | date_of_birth |  country_of_birth  |         email          | car_id
+----+------------+-----------+--------+---------------+--------------------+------------------------+--------
+  1 | Mabelle    | Restorick | Female | 1986-12-24    | Dominican Republic | mrestorick0@sbwire.com |
+  4 | Jens       | Reboul    | Male   | 2009-11-09    | China              | jreboul3@eepurl.com    |
+  2 | Gale       | Gipp      | Female | 2005-04-13    | Egypt              | ggipp1@fc2.com         |      1
+  3 | Calv       | Audiss    | Male   | 2008-10-02    | United States      | caudiss2@scribd.com    |      2
+
+\x
+SELECT * FROM person_info JOIN car_info ON person_info.car_id = car_info.id;
+
+-[ RECORD 1 ]----+--------------------
+id               | 2
+first_name       | Gale
+last_name        | Gipp
+gender           | Female
+date_of_birth    | 2005-04-13
+country_of_birth | Egypt
+email            | ggipp1@fc2.com
+car_id           | 1
+id               | 1
+make             | Dodge
+model            | Journey
+price            | 43542.38
+-[ RECORD 2 ]----+--------------------
+id               | 3
+first_name       | Calv
+last_name        | Audiss
+gender           | Male
+date_of_birth    | 2008-10-02
+country_of_birth | United States
+email            | caudiss2@scribd.com
+car_id           | 2
+id               | 2
+make             | Maybach
+model            | 57
+price            | 82985.40
+
+SELECT person_info.first_name, car_info.make, car_info.model FROM person_info JOIN car_info ON person_info.car_id = car_info.id;
+
+-[ RECORD 1 ]-------
+first_name | Gale
+make       | Dodge
+model      | Journey
+-[ RECORD 2 ]-------
+first_name | Calv
+make       | Maybach
+model      | 57
+
+ first_name |  make   |  model
+------------+---------+---------
+ Gale       | Dodge   | Journey
+ Calv       | Maybach | 57
+
+SELECT * FROM person_info LEFT JOIN car_info ON person_info.car_id = car_info.id;
+
+ id | first_name | last_name | gender | date_of_birth |  country_of_birth  |         email          | car_id | id |  make   |  model  |  price
+----+------------+-----------+--------+---------------+--------------------+------------------------+--------+----+---------+---------+----------
+  2 | Gale       | Gipp      | Female | 2005-04-13    | Egypt              | ggipp1@fc2.com         |      1 |  1 | Dodge   | Journey | 43542.38
+  3 | Calv       | Audiss    | Male   | 2008-10-02    | United States      | caudiss2@scribd.com    |      2 |  2 | Maybach | 57      | 82985.40
+  4 | Jens       | Reboul    | Male   | 2009-11-09    | China              | jreboul3@eepurl.com    |        |    |         |         |
+  1 | Mabelle    | Restorick | Female | 1986-12-24    | Dominican Republic | mrestorick0@sbwire.com |        |    |         |         |
+
+SELECT * FROM person_info WHERE car_id IS NULL;
+
+ id | first_name | last_name | gender | date_of_birth |  country_of_birth  |         email          | car_id
+----+------------+-----------+--------+---------------+--------------------+------------------------+--------
+  1 | Mabelle    | Restorick | Female | 1986-12-24    | Dominican Republic | mrestorick0@sbwire.com |
+  4 | Jens       | Reboul    | Male   | 2009-11-09    | China              | jreboul3@eepurl.com    |
+
+SELECT * FROM person_info LEFT JOIN car_info ON person_info.car_id = car_info.id WHERE car_info.* IS NULL;
+
+ id | first_name | last_name | gender | date_of_birth |  country_of_birth  |         email          | car_id | id | make | model | price
+----+------------+-----------+--------+---------------+--------------------+------------------------+--------+----+------+-------+-------
+  4 | Jens       | Reboul    | Male   | 2009-11-09    | China              | jreboul3@eepurl.com    |        |    |      |       |
+  1 | Mabelle    | Restorick | Female | 1986-12-24    | Dominican Republic | mrestorick0@sbwire.com |        |    |      |       |
+
+DELETE FROM car_info WHERE id = 1;
+ERROR:  update or delete on table "car_info" violates foreign key constraint "person_info_car_id_fkey" on table "person_info"
+DETAIL:  Key (id)=(1) is still referenced from table "person_info".
+
+Either delete person_info or update person_info.car_id to Null to delete car_info. In Django, CASCADE can be used.
+
+\d person_info;
+SELECT * FROM person_info_id_seq;
+SELECT nextval('person_info_id_seq'::regclass);
+ALTER SEQUENCE person_info_id_seq START WITH 5;
+SELECT * FROM person_info_id_seq;
+SELECT nextval('person_info_id_seq'::regclass);
+
+SELECT * FROM pg_available_extensions;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+SELECT * FROM pg_available_extensions;
+\df
+
+CREATE TABLE car_info (
+	car_uid UUID NOT NULL PRIMARY KEY,
+	make VARCHAR(50) NOT NULL,
+	model VARCHAR(50) NOT  NULL,
+	price NUMERIC(10, 2) NOT NULL
+);
+
+create table person_info (
+	person_uid UUID NOT NULL PRIMARY KEY,
+	first_name VARCHAR(50) NOT NULL,
+	last_name VARCHAR(50) NOT NULL,
+	gender VARCHAR(20) NOT NULL,
+	date_of_birth DATE NOT NULL,
+	country_of_birth VARCHAR(50) NOT NULL,
+	email VARCHAR(150),
+        car_uid UUID REFERENCES car_info(car_uid),
+        UNIQUE(car_uid),
+        UNIQUE(email)
+);
+
+INSERT INTO car_info (car_uid, make, model, price) VALUES (uuid_generate_v4(), 'Dodge', 'Journey', 43542.38);
+INSERT INTO car_info (car_uid, make, model, price) VALUES (uuid_generate_v4(), 'Maybach', '57', 82985.4);
+
+INSERT INTO person_info (person_uid, first_name, last_name, gender, date_of_birth, country_of_birth, email) VALUES (uuid_generate_v4(), 'Mabelle', 'Restorick', 'Female', '12/24/1986', 'Dominican Republic', 'mrestorick0@sbwire.com');
+INSERT INTO person_info (person_uid, first_name, last_name, gender, date_of_birth, country_of_birth, email) VALUES (uuid_generate_v4(), 'Gale', 'Gipp', 'Female', '4/13/2005', 'Egypt', 'ggipp1@fc2.com');
+INSERT INTO person_info (person_uid, first_name, last_name, gender, date_of_birth, country_of_birth, email) VALUES (uuid_generate_v4(), 'Calv', 'Audiss', 'Male', '10/2/2008', 'United States', 'caudiss2@scribd.com');
+INSERT INTO person_info (person_uid, first_name, last_name, gender, date_of_birth, country_of_birth, email) VALUES (uuid_generate_v4(), 'Jens', 'Reboul', 'Male', '11/9/2009', 'China', 'jreboul3@eepurl.com');
+
+               car_uid                |  make   |  model  |  price
+--------------------------------------+---------+---------+----------
+ 83c9564e-0d11-401e-8417-4d94850296cc | Dodge   | Journey | 43542.38
+ 85f1c149-2fd7-4552-923f-05b96cdb36ba | Maybach | 57      | 82985.40
+
+              person_uid              | first_name | last_name | gender | date_of_birth |  country_of_birth  |         email          | car_uid
+--------------------------------------+------------+-----------+--------+---------------+--------------------+------------------------+---------
+ c4f8ee40-98aa-4ad9-9873-8e5ee30d9007 | Mabelle    | Restorick | Female | 1986-12-24    | Dominican Republic | mrestorick0@sbwire.com |
+ 6a246629-4fea-4d0a-8a88-d4d714e10991 | Gale       | Gipp      | Female | 2005-04-13    | Egypt              | ggipp1@fc2.com         |
+ d3d97ec6-0079-41cc-8a97-7dbddfae6fd0 | Calv       | Audiss    | Male   | 2008-10-02    | United States      | caudiss2@scribd.com    |
+ d3cdb2c5-10c2-4488-bd19-5a0e2c41f4c7 | Jens       | Reboul    | Male   | 2009-11-09    | China              | jreboul3@eepurl.com    |
+
+UPDATE person_info SET car_uid = '83c9564e-0d11-401e-8417-4d94850296cc' WHERE person_uid = '6a246629-4fea-4d0a-8a88-d4d714e10991';
+UPDATE person_info SET car_uid = '85f1c149-2fd7-4552-923f-05b96cdb36ba' WHERE person_uid = 'd3cdb2c5-10c2-4488-bd19-5a0e2c41f4c7';
+
+              person_uid              | first_name | last_name | gender | date_of_birth |  country_of_birth  |         email          |               car_uid               
+--------------------------------------+------------+-----------+--------+---------------+--------------------+------------------------+--------------------------------------
+ c4f8ee40-98aa-4ad9-9873-8e5ee30d9007 | Mabelle    | Restorick | Female | 1986-12-24    | Dominican Republic | mrestorick0@sbwire.com |
+ d3d97ec6-0079-41cc-8a97-7dbddfae6fd0 | Calv       | Audiss    | Male   | 2008-10-02    | United States      | caudiss2@scribd.com    |
+ 6a246629-4fea-4d0a-8a88-d4d714e10991 | Gale       | Gipp      | Female | 2005-04-13    | Egypt              | ggipp1@fc2.com         | 83c9564e-0d11-401e-8417-4d94850296cc 
+ d3cdb2c5-10c2-4488-bd19-5a0e2c41f4c7 | Jens       | Reboul    | Male   | 2009-11-09    | China              | jreboul3@eepurl.com    | 85f1c149-2fd7-4552-923f-05b96cdb36ba
+
+\x
+SELECT * FROM person_info JOIN car_info ON person_info.car_uid = car_info.car_uid;
+
+-[ RECORD 1 ]----+-------------------------------------
+person_uid       | 6a246629-4fea-4d0a-8a88-d4d714e10991
+first_name       | Gale
+last_name        | Gipp
+gender           | Female
+date_of_birth    | 2005-04-13
+country_of_birth | Egypt
+email            | ggipp1@fc2.com
+car_uid          | 83c9564e-0d11-401e-8417-4d94850296cc
+car_uid          | 83c9564e-0d11-401e-8417-4d94850296cc
+make             | Dodge
+model            | Journey
+price            | 43542.38
+-[ RECORD 2 ]----+-------------------------------------
+person_uid       | d3cdb2c5-10c2-4488-bd19-5a0e2c41f4c7
+first_name       | Jens
+last_name        | Reboul
+gender           | Male
+date_of_birth    | 2009-11-09
+country_of_birth | China
+email            | jreboul3@eepurl.com
+car_uid          | 85f1c149-2fd7-4552-923f-05b96cdb36ba
+car_uid          | 85f1c149-2fd7-4552-923f-05b96cdb36ba
+make             | Maybach
+model            | 57
+price            | 82985.40
+
+SELECT * FROM person_info LEFT JOIN car_info USING(car_uid);
+
+-[ RECORD 1 ]----+-------------------------------------
+car_uid          | 83c9564e-0d11-401e-8417-4d94850296cc
+person_uid       | 6a246629-4fea-4d0a-8a88-d4d714e10991
+first_name       | Gale
+last_name        | Gipp
+gender           | Female
+date_of_birth    | 2005-04-13
+country_of_birth | Egypt
+email            | ggipp1@fc2.com
+make             | Dodge
+model            | Journey
+price            | 43542.38
+-[ RECORD 2 ]----+-------------------------------------
+car_uid          | 85f1c149-2fd7-4552-923f-05b96cdb36ba
+person_uid       | d3cdb2c5-10c2-4488-bd19-5a0e2c41f4c7
+first_name       | Jens
+last_name        | Reboul
+gender           | Male
+date_of_birth    | 2009-11-09
+country_of_birth | China
+email            | jreboul3@eepurl.com
+make             | Maybach
+model            | 57
+price            | 82985.40
+-[ RECORD 3 ]----+-------------------------------------
+car_uid          |
+person_uid       | d3d97ec6-0079-41cc-8a97-7dbddfae6fd0
+first_name       | Calv
+last_name        | Audiss
+gender           | Male
+date_of_birth    | 2008-10-02
+country_of_birth | United States
+email            | caudiss2@scribd.com
+make             |
+model            |
+price            |
+-[ RECORD 4 ]----+-------------------------------------
+car_uid          |
+person_uid       | c4f8ee40-98aa-4ad9-9873-8e5ee30d9007
+first_name       | Mabelle
+last_name        | Restorick
+gender           | Female
+date_of_birth    | 1986-12-24
+country_of_birth | Dominican Republic
+email            | mrestorick0@sbwire.com
+make             |
+model            |
+price            |
+
+
+CREATE TABLE dept AS SELECT dept_name, dept_location FROM department;
+
+DROP TABLE department;

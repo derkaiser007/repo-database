@@ -1,0 +1,6 @@
+python manage.py shell
+>>> from student.models import Student
+>>> posts = Student.objects.all()
+>>> posts
+<QuerySet [<Student: Vivek>]>
+>>> exit()
